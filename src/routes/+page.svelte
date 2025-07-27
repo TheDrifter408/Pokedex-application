@@ -1,18 +1,14 @@
 <script lang="ts">
-  import type { PokemonResponse } from "$lib/types";
+  // Data from server side
+  let { data } = $props();
 
-  let { results }: PokemonResponse = $props();
-  console.log('Results: ', results);
 </script>
 
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
-
-<h2>Pokemon list</h2>
+<h1>Pokemon list</h1>
 <ul>
-  {#each results as { name, url }}
+  {#each data.results as { name, id }}
   <li>
-    {name}
+    <a href="/pokemon/{id}">{name}</a>
   </li>
   {/each}
 </ul>
