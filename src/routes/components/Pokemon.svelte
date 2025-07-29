@@ -1,9 +1,9 @@
 <script lang="ts">
   import type { SinglePokemon } from "$lib/types";
 
-  let { data }: { data: SinglePokemon } = $props();
-  // Extract the sprites data into a key-value array
-  const sprites = [...Object.entries(data.sprites), ...Object.entries(data.sprites['other'])].filter(([key, value]) => {
+  let pokemon: SinglePokemon = $props();
+  // Extract the sprites pokemon into a key-value array
+  const sprites = [...Object.entries(pokemon.sprites), ...Object.entries(pokemon.sprites['other'])].filter(([key, value]) => {
     if (key === 'front_default' || key === 'front_shiny' && value !== null) {
       return [key, value];
     }
@@ -11,12 +11,12 @@
 </script>
 
 <section>
-  <h1>{data.name}</h1>
+  <h1>{pokemon.name}</h1>
   <!--Types of the Pokemon-->
   <h2>Types:</h2>
   <article>
     <div class="flex gap-2">
-      {#each data.types as { slot, type } (slot)}
+      {#each pokemon.types as { slot, type } (slot)}
         <span>{type.name}</span>
       {/each}
     </div>
@@ -25,7 +25,7 @@
   <h2>Abilities</h2>
   <article>
     <div>
-      {#each data.abilities as { ability, is_hidden, slot} (slot)}
+      {#each pokemon.abilities as { ability, is_hidden, slot} (slot)}
       <p>{ability.name}</p>
       {/each}
     </div>
@@ -35,7 +35,7 @@
   <article class="flex">
     {#each sprites as [key, value] (key) }
     <div>
-      <img src={value} alt="sprite for {data.name}" />
+      <img src={value} alt="sprite for {pokemon.name}" />
       <span class="capitalize">{key.split('_').join(' ')}</span>
     </div>
     {/each}
