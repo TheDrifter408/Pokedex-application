@@ -9,15 +9,16 @@
   const onSearch = async (e: SubmitEvent) => {
     e.preventDefault();
     console.log("firing");
-    if (!search.trim()) return;
+    if (!search.trim()) {
+      pokemon = null;
+      return;
+    };
 
     try {
       const response = await fetch(
         `https://pokeapi.co/api/v2/pokemon/${search.toLowerCase().trim()}/`
       );
       const result = await response.json();
-      // Todo Fix the issue search results not turning up in the UI
-      console.log("Results", result);
       pokemon = result;
     } catch (e) {
       console.error("Not found");
@@ -26,19 +27,23 @@
 </script>
 
 <Header />
-<section class="border border-red-500 flex flex-col items-center w-[80%] mx-auto">
+<section class="flex flex-col items-center">
   <h1 class="text-3xl font-bold">Pokedex</h1>
   <article>
     <form method="GET" onsubmit={onSearch}>
-      <div class="border rounded-lg w-full ring-slate-300 focus-within:ring-1">
-        <input class='w-full focus:none' name="search" type="search" bind:value={search} />
+      <div class="border rounded-lg w-full px-2 ring-slate-300 focus-within:ring-1">
+        <input class='w-full focus:ring-0 focus:outline-0 focus:bg-transparent bg-transparent border-0' name="search" type="search" bind:value={search} />
       </div>
     </form>
-    <div class="py-2 mt-2 border border-green-500">
+  </article>
+  <article class="mt-4">
+   <div class="">
       {#if pokemon}
         <Pokemon {...pokemon} />
       {:else}
-        <p>Please input either a pokemon's name or their id</p>
+	<div>
+         <p class="text-slate-500">Please input either a pokemon's name or their ID</p>
+	</div>
       {/if}
     </div>
   </article>
