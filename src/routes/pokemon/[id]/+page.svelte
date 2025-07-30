@@ -41,15 +41,3 @@
     {/each}
   </article>
 </section>
-
-<style>
-  .capitalize {
-    text-transform: capitalize;
-  }
-  .flex {
-    display: flex;
-  }
-  .gap-2 {
-    gap: 0.5rem;
-  }
-</style>
