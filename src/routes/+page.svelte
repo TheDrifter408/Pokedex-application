@@ -28,7 +28,6 @@
     }
   };
 </script>
-
 <Header />
 <section class="flex flex-col items-center">
   <h1 class="text-3xl font-bold">Pokedex</h1>
