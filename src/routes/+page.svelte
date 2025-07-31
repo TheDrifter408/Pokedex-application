@@ -1,19 +1,19 @@
 <script lang="ts">
   import type { SinglePokemon } from "$lib/types";
   import Header from "./components/Header.svelte";
-  import Pokemon from "./components/Pokemon.svelte";
+  import SearchResult from "./components/SearchResult.svelte";
 
   let search = $state("");
+  let error = $state<string | null>(null);
+  let loading = $state(false);
   let pokemon = $state<SinglePokemon | null>(null);
 
   const onSearch = async (e: SubmitEvent) => {
     e.preventDefault();
-    console.log("firing");
     if (!search.trim()) {
       pokemon = null;
-      return;
     };
-
+    loading = true;	
     try {
       const response = await fetch(
         `https://pokeapi.co/api/v2/pokemon/${search.toLowerCase().trim()}/`
@@ -21,7 +21,10 @@
       const result = await response.json();
       pokemon = result;
     } catch (e) {
+      error = 'There was an error';
       console.error("Not found");
+    } finally {
+      loading = false;
     }
   };
 </script>
@@ -36,15 +39,5 @@
       </div>
     </form>
   </article>
-  <article class="mt-4">
-   <div class="">
-      {#if pokemon}
-        <Pokemon {...pokemon} />
-      {:else}
-	<div>
-         <p class="text-slate-500">Please input either a pokemon's name or their ID</p>
-	</div>
-      {/if}
-    </div>
-  </article>
+  <SearchResult {loading} {error} {pokemon}  />
 </section>
